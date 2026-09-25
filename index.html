@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>ZukaNoPro2</title>
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background: #1a0820;
+    color: #f0d5e8;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .khung {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .thanh-tren {
+    background: #2a0d26;
+    padding: 10px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #7a2d5c;
+    flex-shrink: 0;
+  }
+
+  .logo {
+    font-size: 13px;
+    font-weight: 700;
+    color: #ff6ec7;
+    letter-spacing: 0.5px;
+  }
+
+  .nut-doi {
+    background: #d63384;
+    color: #fff;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 16px;
+    font-size: 10px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .nut-doi:active { background: #a02065; }
+
+  .vung-bang {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    text-align: center;
+    font-size: 11px;
+  }
+
+  th:nth-child(1) { width: 22%; }
+  th:nth-child(2) { width: 16%; }
+  th:nth-child(3) { width: 22%; }
+  th:nth-child(4) { width: 14%; }
+  th:nth-child(5) { width: 14%; }
+  th:nth-child(6) { width: 12%; }
+
+  th {
+    position: sticky;
+    top: 0;
+    background: #3a0f2e;
+    color: #ffb3e0;
+    font-weight: 700;
+    padding: 8px 2px;
+    text-transform: uppercase;
+    border-bottom: 2px solid #d63384;
+    z-index: 10;
+    white-space: nowrap;
+    font-size: 9px;
+  }
+
+  td {
+    padding: 7px 2px;
+    border-bottom: 1px solid #4a1535;
+    white-space: nowrap;
+    color: #f0d5e8;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  tr:nth-child(even) { background: rgba(255, 110, 199, 0.03); }
+
+  .nhan-game { color: #ff6ec7; font-weight: 700; font-size: 9px; }
+  .so-phien { color: #ffb3e0; font-weight: 700; }
+  .gio { color: #b88fb0; font-size: 9px; }
+  .tai { color: #7dd3fc; font-weight: 700; }
+  .xiu { color: #fca5a5; font-weight: 700; }
+  .bao { color: #fbbf24; font-weight: 700; }
+  .dung { color: #4ade80; font-weight: 700; }
+  .sai { color: #f87171; font-weight: 700; }
+
+  .hang-tiep {
+    background: rgba(255, 110, 199, 0.12) !important;
+    border-left: 3px solid #ff6ec7;
+  }
+  .hang-tiep td { font-weight: 700; }
+
+  .cho {
+    color: #ffb3e0;
+    font-style: italic;
+    font-size: 9px;
+    animation: nhap 1.5s infinite;
+  }
+
+  @keyframes nhap {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+
+  .loading {
+    padding: 30px;
+    text-align: center;
+    color: #ff6ec7;
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 5, 20, 0.95);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+
+  .the {
+    width: 300px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #2a0d26;
+    border: 1px solid #7a2d5c;
+    border-radius: 14px;
+    padding: 22px;
+    text-align: center;
+  }
+
+  .the h3 {
+    font-size: 14px;
+    color: #ff6ec7;
+    margin-bottom: 16px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  .ds-game {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .o-game {
+    background: #3a0f2e;
+    border: 1px solid #7a2d5c;
+    padding: 14px;
+    border-radius: 10px;
+    color: #ffd6ee;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .o-game:active {
+    border-color: #ff6ec7;
+    background: #4a1535;
+  }
+
+  .cham-xanh {
+    font-size: 9px;
+    color: #4ade80;
+    background: rgba(74, 222, 128, 0.15);
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 700;
+  }
+</style>
+</head>
+<body oncontextmenu="return false;">
+
+<div class="overlay" id="modal-chon">
+  <div class="the">
+    <h3>✦ ZUKA NO PRO 2 ✦</h3>
+    <div class="ds-game">
+      <div class="o-game" onclick="chonGame(1)"><span>SUNWIN</span><span class="cham-xanh">ONLINE</span></div>
+      <div class="o-game" onclick="chonGame(2)"><span>LC79-MD5</span><span class="cham-xanh">ONLINE</span></div>
+      <div class="o-game" onclick="chonGame(3)"><span>MAX789</span><span class="cham-xanh">ONLINE</span></div>
+      <div class="o-game" onclick="chonGame(4)"><span>HITCLUB</span><span class="cham-xanh">ONLINE</span></div>
+      <div class="o-game" onclick="chonGame(5)"><span>68GB</span><span class="cham-xanh">ONLINE</span></div>
+      <div class="o-game" onclick="chonGame(6)"><span>SUMCLUB</span><span class="cham-xanh">ONLINE</span></div>
+      <div class="o-game" onclick="chonGame(7)"><span>RIKVIP</span><span class="cham-xanh">ONLINE</span></div>
+      <div class="o-game" onclick="chonGame(8)"><span>SICSUN</span><span class="cham-xanh">ONLINE</span></div>
+      <div class="o-game" onclick="chonGame(9)"><span>LC79-HU</span><span class="cham-xanh">ONLINE</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="khung">
+  <div class="thanh-tren">
+    <span class="logo" id="ten-game">✦ ZUKA NO PRO 2 ✦</span>
+    <button class="nut-doi" onclick="quayLai()">ĐỔI</button>
+  </div>
+  <div class="vung-bang">
+    <table>
+      <thead>
+        <tr>
+          <th>GAME</th>
+          <th>PHIÊN</th>
+          <th>THỜI GIAN</th>
+          <th>DỰ ĐOÁN</th>
+          <th>KẾT QUẢ</th>
+          <th>XÁC MINH</th>
+        </tr>
+      </thead>
+      <tbody id="bang-du-lieu">
+        <tr><td colspan="6" class="loading">Chọn game để bắt đầu...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+const TEN_GAME = {
+  1: "SUNWIN", 2: "LC79-MD5", 3: "MAX789", 4: "HITCLUB",
+  5: "68GB", 6: "SUMCLUB", 7: "RIKVIP", 8: "SICSUN", 9: "LC79-HU"
+};
+
+let gameDangChon = 1;
+let vongLap = null;
+let lastHash = '';
+let dangTai = false;
+
+function chonGame(id) {
+  gameDangChon = id;
+  document.getElementById('modal-chon').style.display = 'none';
+  document.getElementById('ten-game').innerText = `✦ ${TEN_GAME[id]} ✦`;
+  document.getElementById('bang-du-lieu').innerHTML = '<tr><td colspan="6" class="loading">Đang tải dữ liệu...</td></tr>';
+  lastHash = '';
+  batDau();
+}
+
+function quayLai() {
+  if (vongLap) { clearInterval(vongLap); vongLap = null; }
+  document.getElementById('modal-chon').style.display = 'flex';
+  document.getElementById('bang-du-lieu').innerHTML = '<tr><td colspan="6" class="loading">Chọn game để bắt đầu...</td></tr>';
+}
+
+function batDau() {
+  taiDuLieu();
+  if (vongLap) clearInterval(vongLap);
+  vongLap = setInterval(taiDuLieu, 8000);
+}
+
+async function taiDuLieu() {
+  if (dangTai) return;
+  dangTai = true;
+  try {
+    const res = await fetch('/api/data', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ apiId: gameDangChon })
+    });
+    if (!res.ok) {
+      hienThiTrong();
+      return;
+    }
+    const json = await res.json();
+
+    if (!json.rows || json.rows.length === 0) {
+      hienThiTrong();
+      return;
+    }
+
+    const hash = json.rows.map(r => r.phien + r.result + r.verify).join('|');
+    if (hash === lastHash) return;
+    lastHash = hash;
+
+    veBang(json.rows);
+  } catch (e) {
+    hienThiTrong();
+  }
+  finally {
+    dangTai = false;
+  }
+}
+
+function hienThiTrong() {
+  document.getElementById('bang-du-lieu').innerHTML = '<tr><td colspan="6" class="loading">Game đang bảo trì hoặc không có kết quả</td></tr>';
+  lastHash = '';
+}
+
+function veBang(rows) {
+  const tbody = document.getElementById('bang-du-lieu');
+  if (!rows || rows.length === 0) return;
+
+  let html = '';
+  for (let i = 0; i < rows.length; i++) {
+    const r = rows[i];
+
+    if (r.isNext) {
+      html += `<tr class="hang-tiep"><td><span class="nhan-game">${r.game}</span></td><td class="so-phien">#${r.phien}</td><td class="gio">${r.time}</td><td class="${r.prediction === 'Tài' ? 'tai' : 'xiu'}">${r.prediction}</td><td class="cho">Chờ...</td><td class="cho">⏳</td></tr>`;
+    } else {
+      let lopKq = 'tai';
+      if (r.result === 'Xỉu') lopKq = 'xiu';
+      else if (r.result === 'Bão') lopKq = 'bao';
+
+      const lopDuDoan = r.prediction === 'Tài' ? 'tai' : 'xiu';
+      const lopXacMinh = r.isCorrect ? 'dung' : 'sai';
+
+      html += `<tr><td><span class="nhan-game">${r.game}</span></td><td class="so-phien">#${r.phien}</td><td class="gio">${r.time}</td><td class="${lopDuDoan}">${r.prediction}</td><td class="${lopKq}">${r.result}</td><td class="${lopXacMinh}">${r.verify}</td></tr>`;
+    }
+  }
+
+  tbody.innerHTML = html;
+}
+
+document.addEventListener('keydown', function (e) {
+  if (e.keyCode === 123 ||
+     (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67)) ||
+     (e.ctrlKey && (e.keyCode === 85 || e.keyCode === 83))) {
+    e.preventDefault();
+    e.stopPropagation();
+    return false;
+  }
+}, true);
+</script>
+</body>
+</html>
